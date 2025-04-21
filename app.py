@@ -11,7 +11,11 @@ from utils import get_safe_path
 st.set_page_config(
     page_title="Directory Visualizer",
     page_icon="📂",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded",
+    menu_items={
+        'About': "Directory Structure Visualizer - A tool to visualize directory structures as interactive force-directed graphs."
+    }
 )
 
 # Initialize session state variables if they don't exist
@@ -45,15 +49,36 @@ def main():
         
         if st.button("Visualize Directory"):
             if directory_path:
-                # Validate path and scan directory
+                # Show a progress message while scanning
+                progress_placeholder = st.empty()
+                progress_bar = st.progress(0)
+                progress_placeholder.text("Validating directory path...")
+                
+                # Validate path
                 safe_path = get_safe_path(directory_path)
                 if safe_path:
                     try:
+                        progress_bar.progress(20)
+                        progress_placeholder.text("Scanning directory structure...")
+                        
+                        # Scan directory
                         st.session_state.selected_directory = safe_path
                         dir_data = scan_directory(safe_path, depth_limit)
+                        
+                        progress_bar.progress(80)
+                        progress_placeholder.text("Processing data for visualization...")
+                        
+                        # Store data in session state
                         st.session_state.directory_data = dir_data
+                        
+                        progress_bar.progress(100)
+                        progress_placeholder.text("Rendering visualization...")
+                        
+                        # Refresh the page to show visualization
                         st.rerun()
                     except Exception as e:
+                        progress_placeholder.empty()
+                        progress_bar.empty()
                         st.error(f"Error scanning directory: {str(e)}")
                 else:
                     st.error("Invalid directory path")

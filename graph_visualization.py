@@ -20,11 +20,11 @@ def create_force_directed_graph(data_json):
             #graph-container {{
                 width: 100%;
                 height: 600px;
-                border: 1px solid #ddd;
+                border: 1px solid #444;
                 border-radius: 5px;
                 overflow: hidden;
                 margin-top: 10px;
-                background-color: #f9f9f9;
+                background-color: #1e1e1e;
             }}
             
             .node {{
@@ -36,32 +36,33 @@ def create_force_directed_graph(data_json):
                 font-size: 12px;
                 text-anchor: middle;
                 pointer-events: none;
-                fill: #333;
+                fill: #e0e0e0;
             }}
             
             .node circle {{
-                stroke: #fff;
+                stroke: #2d2d2d;
                 stroke-width: 1.5px;
             }}
             
             .link {{
                 fill: none;
-                stroke: #999;
+                stroke: #656565;
                 stroke-opacity: 0.6;
                 stroke-width: 1.5px;
             }}
             
             .tooltip {{
                 position: absolute;
-                background: #fff;
-                border: 1px solid #ddd;
+                background: #2d2d2d;
+                color: #e0e0e0;
+                border: 1px solid #444;
                 border-radius: 4px;
                 padding: 10px;
                 font-size: 12px;
                 pointer-events: none;
                 opacity: 0;
                 transition: opacity 0.3s;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                box-shadow: 0 2px 4px rgba(0,0,0,0.3);
                 max-width: 300px;
                 white-space: nowrap;
                 overflow: hidden;
@@ -71,14 +72,57 @@ def create_force_directed_graph(data_json):
             .tooltip-title {{
                 font-weight: bold;
                 margin-bottom: 5px;
+                color: #fff;
             }}
             
             .control-panel {{
                 padding: 10px;
-                background: #f0f0f0;
-                border-bottom: 1px solid #ddd;
+                background: #2d2d2d;
+                border-bottom: 1px solid #444;
                 display: flex;
                 justify-content: space-between;
+                color: #e0e0e0;
+            }}
+            
+            #reset-zoom {{
+                background-color: #383838;
+                color: #e0e0e0;
+                border: 1px solid #555;
+                border-radius: 4px;
+                padding: 5px 10px;
+                cursor: pointer;
+            }}
+            
+            #reset-zoom:hover {{
+                background-color: #444;
+            }}
+            
+            #link-strength {{
+                background: #383838;
+                border: 1px solid #555;
+                height: 5px;
+                border-radius: 2px;
+            }}
+            
+            #link-strength::-webkit-slider-thumb {{
+                background: #666;
+                border: 1px solid #777;
+            }}
+            
+            .progress-container {{
+                width: 100%;
+                background-color: #2d2d2d;
+                border-radius: 4px;
+                margin: 10px 0;
+                overflow: hidden;
+                display: none;
+            }}
+            
+            .progress-bar {{
+                height: 10px;
+                background-color: #4CAF50;
+                width: 0%;
+                transition: width 0.3s;
             }}
         </style>
     </head>
@@ -94,6 +138,9 @@ def create_force_directed_graph(data_json):
                 <label for="link-strength">Link Strength:</label>
                 <input type="range" id="link-strength" min="0.1" max="1" step="0.1" value="0.5">
             </div>
+        </div>
+        <div class="progress-container" id="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
         </div>
         <div id="graph-container"></div>
         <div class="tooltip" id="tooltip"></div>
@@ -143,7 +190,31 @@ def create_force_directed_graph(data_json):
                 return {{ nodes, links }};
             }}
             
-            const graphData = prepareGraphData(hierarchyData);
+            // Show progress bar while processing data
+            const progressContainer = document.getElementById("progress-container");
+            const progressBar = document.getElementById("progress-bar");
+            
+            // Show the progress bar
+            progressContainer.style.display = "block";
+            progressBar.style.width = "25%";
+            
+            // Process data with simulated progress updates
+            setTimeout(() => {{ progressBar.style.width = "50%"; }}, 200);
+            setTimeout(() => {{ progressBar.style.width = "75%"; }}, 400);
+            
+            // Prepare graph data with a slight delay to show progress
+            let graphData;
+            setTimeout(() => {{
+                graphData = prepareGraphData(hierarchyData);
+                progressBar.style.width = "100%";
+                
+                // Hide progress bar after a short delay
+                setTimeout(() => {{
+                    progressContainer.style.display = "none";
+                    // Create the visualization once data is prepared
+                    createForceGraph();
+                }}, 300);
+            }}, 600);
             
             // Create the D3.js visualization
             function createForceGraph() {{
@@ -298,8 +369,8 @@ def create_force_directed_graph(data_json):
                 // Highlight connections on click
                 function highlightConnections(event, d) {{
                     // Reset all links and nodes
-                    link.style("stroke", "#999").style("stroke-width", 1.5);
-                    node.select("circle").style("stroke", "#fff").style("stroke-width", 1.5);
+                    link.style("stroke", "#656565").style("stroke-width", 1.5);
+                    node.select("circle").style("stroke", "#2d2d2d").style("stroke-width", 1.5);
                     
                     // Find connected links and nodes
                     const connectedLinks = graphData.links.filter(l => 
@@ -329,8 +400,8 @@ def create_force_directed_graph(data_json):
                 
                 // Reset highlights when clicking on background
                 svg.on("click", () => {{
-                    link.style("stroke", "#999").style("stroke-width", 1.5);
-                    node.select("circle").style("stroke", "#fff").style("stroke-width", 1.5);
+                    link.style("stroke", "#656565").style("stroke-width", 1.5);
+                    node.select("circle").style("stroke", "#2d2d2d").style("stroke-width", 1.5);
                 }});
                 
                 // Format bytes to human-readable format
