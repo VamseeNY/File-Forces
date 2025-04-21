@@ -2,7 +2,9 @@
 
 A Streamlit web application that visualizes folder directory structures as interactive D3.js force-directed graphs.
 
-![image](https://github.com/user-attachments/assets/166203f8-f722-479c-b2a2-5c73565d7882)
+![image](https://github.com/user-attachments/assets/13689bc2-aa41-40d8-a796-6e13d242ae0e)
+
+
 
 
 
@@ -17,6 +19,9 @@ A Streamlit web application that visualizes folder directory structures as inter
 - **Progress Indicators**: Visual feedback during directory scanning and processing
 
 ![image](https://github.com/user-attachments/assets/08b28439-2347-42d1-8b3d-ba3be4c7c43c)
+
+![image](https://github.com/user-attachments/assets/166203f8-f722-479c-b2a2-5c73565d7882)
+
 ## Installation
 
 ### Prerequisites
