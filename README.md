@@ -18,9 +18,9 @@ A Streamlit web application that visualizes folder directory structures as inter
 - **Connection Highlighting**: Click on nodes to highlight their connections
 - **Progress Indicators**: Visual feedback during directory scanning and processing
 
-![image](https://github.com/user-attachments/assets/08b28439-2347-42d1-8b3d-ba3be4c7c43c)
-
 ![image](https://github.com/user-attachments/assets/166203f8-f722-479c-b2a2-5c73565d7882)
+
+![image](https://github.com/user-attachments/assets/08b28439-2347-42d1-8b3d-ba3be4c7c43c)
 
 ## Installation
 
