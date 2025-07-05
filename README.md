@@ -9,15 +9,14 @@ A Streamlit web application that visualizes folder directory structures as inter
 ## Features
 
 - **Interactive Visualization**: View your directory structure as an interactive force-directed graph
-- **Dark Mode Interface**: Clean, modern dark theme for comfortable viewing
 - **File Type Categorization**: Files are color-coded by type for easy identification
 - **Detailed Information**: Hover over nodes to see detailed file/folder information
 - **Customizable Depth**: Control how deep the directory scanning goes
-- **Connection Highlighting**: Click on nodes to highlight their connections
 - **Progress Indicators**: Visual feedback during directory scanning and processing
 
 
-![image](https://github.com/user-attachments/assets/08b28439-2347-42d1-8b3d-ba3be4c7c43c)
+![image](https://github.com/user-attachments/assets/b684b343-52e4-4af0-8266-6ab37c423070)
+
 
 ## Installation
 
@@ -27,15 +26,21 @@ A Streamlit web application that visualizes folder directory structures as inter
 - Git (for cloning the repository)
 
 ### Quick Start
+## Installation
 
-1. **Clone the repository**
+This project consists of two parts: a Flask-based backend (`api/`) and a Next.js-based frontend (`frontend/`).
+
+---
+
+### Backend (Flask API)
+
+1. Navigate to the backend directory:
 
    ```bash
-   git clone https://github.com/yourusername/directory-visualizer.git
-   cd directory-visualizer
+   cd api
    ```
 
-2. **Set up a virtual environment (recommended)**
+2. Create a virtual environment and activate it:
 
    ```bash
    # On Windows
@@ -47,31 +52,53 @@ A Streamlit web application that visualizes folder directory structures as inter
    source venv/bin/activate
    ```
 
-3. **Install dependencies**
+3. Install required Python dependencies:
 
    ```bash
-   pip install -r requirements.txt
+   pip install flask flask-cors
    ```
 
-   Or install directly:
+4. Start the Flask development server:
 
    ```bash
-   pip install streamlit
+   python api.py
    ```
 
-4. **Run the application**
+---
+
+### Frontend (Next.js App)
+
+1. Open a new terminal and navigate to the frontend directory:
 
    ```bash
-   streamlit run app.py
+   cd frontend
    ```
 
-5. **Open in your browser**
+2. Install Node.js dependencies:
 
-   The application should automatically open in your default web browser. If not, navigate to:
-   
+   ```bash
+   npm install
    ```
-   http://localhost:8501
+
+3. Start the Next.js development server:
+
+   ```bash
+   npm run dev
    ```
+
+4. Open your browser and navigate to:
+
+   ```
+   http://localhost:3000
+   ```
+
+---
+
+### Notes
+
+- Make sure the backend is running before accessing the frontend to ensure API requests succeed.
+- Adjust CORS settings in `api.py` if deploying on a different domain.
+- You can modify the directory scanning logic in `api/directory_scanner.py` and the graph rendering in `frontend/src/app/components/ForceGraph.tsx`.
 
 
 ## Usage
@@ -97,15 +124,36 @@ A Streamlit web application that visualizes folder directory structures as inter
 
 ```
 directory-visualizer/
-├── .streamlit/
-│   └── config.toml       # Streamlit configuration
-├── app.py                # Main Streamlit application
-├── directory_scanner.py  # Directory scanning functionality
-├── graph_visualization.py # D3.js visualization code
-├── utils.py              # Utility functions
-└── README.md             # This documentation
-```
+├── api/                     # Flask backend
+│   ├── __pycache__/
+│   ├── api.py               # Flask app and API endpoints
+│   ├── directory_scanner.py # Recursive directory scanning
+│   └── utils.py             # Helper functions
+│
+├── frontend/                # Next.js frontend
+│   ├── .next/               # Build output
+│   ├── node_modules/
+│   ├── public/
+│   ├── src/
+│   │   └── app/
+│   │       ├── favicon.ico
+│   │       ├── globals.css
+│   │       ├── layout.tsx
+│   │       ├── page.tsx            # Homepage logic
+│   │       └── components/
+│   │           └── ForceGraph.tsx  # D3 visualization
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── next.config.ts
+│   └── README.md
+│
+├── .gitignore
+├── INSTALL.md
+├── uv.lock
 
+```
+### Future work
+- GPU Accelerated visualizations using WebGL
 
 ### Extending Functionality
 
